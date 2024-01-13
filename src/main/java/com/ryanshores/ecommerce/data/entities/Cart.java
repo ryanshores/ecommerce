@@ -18,5 +18,13 @@ public class Cart extends Base {
     @ElementCollection
     @OrderColumn
     private List<LineItem> lineItems;
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "couponCode='" + couponCode + '\'' +
+                ", lineItems=" + lineItems +
+                '}';
+    }
 }
 

@@ -43,6 +43,14 @@ public class Sale extends Base {
     }
 
 
-
+    @Override
+    public String toString() {
+        return "Sale{" +
+                "lineItems=" + lineItems +
+                ", status=" + status +
+                ", discount=" + discount +
+                ", account=" + account +
+                '}';
+    }
 }
 

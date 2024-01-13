@@ -32,7 +32,8 @@ create table account
     id          bigserial
         primary key,
     email       varchar(255),
-    modified_by varchar(255)
+    modified_by varchar(255),
+    password    varchar(255)
 );
 
 alter table account

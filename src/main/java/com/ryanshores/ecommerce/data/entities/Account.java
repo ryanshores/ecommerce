@@ -20,6 +20,17 @@ public class Account extends Base {
     @Pattern(regexp = "^(.+)@(\\S+)$", message = "email must be valid")
     private String email;
 
+    private String password;
+
     @OneToOne
     private Cart cart;
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", cart=" + cart +
+                '}';
+    }
 }

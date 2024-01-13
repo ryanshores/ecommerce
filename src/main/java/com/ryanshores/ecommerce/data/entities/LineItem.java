@@ -20,4 +20,12 @@ public class LineItem {
     public Double getTotal() {
         return quantity * product.getPrice();
     }
+
+    @Override
+    public String toString() {
+        return "LineItem{" +
+                "product=" + product +
+                ", quantity=" + quantity +
+                '}';
+    }
 }
