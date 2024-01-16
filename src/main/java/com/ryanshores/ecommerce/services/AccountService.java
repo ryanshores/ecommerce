@@ -5,6 +5,7 @@ import com.ryanshores.ecommerce.data.repositories.AccountRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,4 +27,6 @@ public class AccountService {
     public Optional<Account> findByEmail(String email) {
         return repo.findOneByEmail(email);
     }
+
+    public List<Account> findAll() { return repo.findAll(); }
 }

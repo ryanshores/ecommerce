@@ -15,8 +15,10 @@ import java.util.Set;
 @NoArgsConstructor
 public class Account extends Base {
 
-    public Account(String email) {
+    public Account(String email, String password, Authority authority) {
         this.email = email;
+        this.password = password;
+        this.authorities.add(authority);
     }
 
     @Pattern(regexp = "^(.+)@(\\S+)$", message = "email must be valid")
@@ -40,6 +42,7 @@ public class Account extends Base {
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", cart=" + cart +
+                ", authorities=" + authorities +
                 '}';
     }
 }

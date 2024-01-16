@@ -11,14 +11,14 @@ create table cart
     updated_dt  date,
     id          bigserial
         primary key,
-    coupon_code varchar(255),
-    modified_by varchar(255)
+    coupon_code varchar(32),
+    modified_by varchar(64)
 );
 
-create table authroity
+create table authority
 (
-    name varchar(16)
-)
+    name varchar(16) not null primary key
+);
 
 create table account
 (
@@ -26,13 +26,24 @@ create table account
     updated_dt  date,
     cart_id     bigint
         unique
-        constraint fkf1aw1a2b2qrnxhuqupim0yblq
+        constraint fk_cart
             references cart,
     id          bigserial
         primary key,
-    email       varchar(255),
-    modified_by varchar(255),
-    password    varchar(255)
+    email       varchar(64),
+    modified_by varchar(64),
+    password    varchar(64)
+);
+
+create table account_authority
+(
+    account_id     bigint      not null
+        constraint fk_account
+            references account,
+    authority_name varchar(16) not null
+        constraint fk_authority
+            references authority,
+    primary key (account_id, authority_name)
 );
 
 create table product
@@ -44,19 +55,19 @@ create table product
         primary key,
     quantity    bigint,
     description varchar(255) not null,
-    modified_by varchar(255),
-    name        varchar(255) not null,
-    sku         varchar(255) not null
+    modified_by varchar(64),
+    name        varchar(64) not null,
+    sku         varchar(32) not null
 );
 
 create table cart_line_items
 (
     line_items_order integer not null,
     cart_id          bigint  not null
-        constraint fkwels3wu8sxqxxa9t6bgxdxa3
+        constraint fk_cart
             references cart,
     product_id       bigint
-        constraint fk8gplms50tca43f37vov0fhd9d
+        constraint fk_product
             references product,
     quantity         bigint,
     primary key (line_items_order, cart_id)
@@ -71,22 +82,22 @@ create table sale
             check ((status >= 0) AND (status <= 4)),
     updated_dt  date,
     account_id  bigint
-        constraint fkd9v2kefsda5bh0r2hvo9ke17h
+        constraint fk_account
             references account,
     id          bigserial
         primary key,
-    modified_by varchar(255)
+    modified_by varchar(64)
 );
 
 create table sale_line_items
 (
     line_items_order integer not null,
     product_id       bigint
-        constraint fk6kn71bxrl59a6br95erums180
+        constraint fk_product
             references product,
     quantity         bigint,
     sale_id          bigint  not null
-        constraint fkdj1ruabwvn981h82c7gao3skn
+        constraint fl_sale
             references sale,
     primary key (line_items_order, sale_id)
 );

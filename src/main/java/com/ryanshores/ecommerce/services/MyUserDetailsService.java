@@ -1,6 +1,5 @@
 package com.ryanshores.ecommerce.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,8 +9,11 @@ import org.springframework.stereotype.Component;
 @Component("userDetailsService")
 public class MyUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
+
+    public MyUserDetailsService(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
