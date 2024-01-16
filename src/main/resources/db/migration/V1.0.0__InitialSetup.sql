@@ -5,9 +5,6 @@ create table order_line_items
     quantity   bigint
 );
 
-alter table order_line_items
-    owner to admin;
-
 create table cart
 (
     created_dt  date,
@@ -18,8 +15,10 @@ create table cart
     modified_by varchar(255)
 );
 
-alter table cart
-    owner to admin;
+create table authroity
+(
+    name varchar(16)
+)
 
 create table account
 (
@@ -36,9 +35,6 @@ create table account
     password    varchar(255)
 );
 
-alter table account
-    owner to admin;
-
 create table product
 (
     created_dt  date,
@@ -53,9 +49,6 @@ create table product
     sku         varchar(255) not null
 );
 
-alter table product
-    owner to admin;
-
 create table cart_line_items
 (
     line_items_order integer not null,
@@ -68,9 +61,6 @@ create table cart_line_items
     quantity         bigint,
     primary key (line_items_order, cart_id)
 );
-
-alter table cart_line_items
-    owner to admin;
 
 create table sale
 (
@@ -88,9 +78,6 @@ create table sale
     modified_by varchar(255)
 );
 
-alter table sale
-    owner to admin;
-
 create table sale_line_items
 (
     line_items_order integer not null,
@@ -103,7 +90,4 @@ create table sale_line_items
             references sale,
     primary key (line_items_order, sale_id)
 );
-
-alter table sale_line_items
-    owner to admin;
 

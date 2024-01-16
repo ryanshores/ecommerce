@@ -1,11 +1,13 @@
 package com.ryanshores.ecommerce.data.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,6 +26,13 @@ public class Account extends Base {
 
     @OneToOne
     private Cart cart;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "account_authority",
+            joinColumns = {@JoinColumn(name = "account_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
+    private Set<Authority> authorities = new HashSet<>();
 
     @Override
     public String toString() {

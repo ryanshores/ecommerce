@@ -1,9 +1,11 @@
-package com.ryanshores.ecommerce.data.services;
+package com.ryanshores.ecommerce.services;
 
 import com.ryanshores.ecommerce.data.entities.Account;
 import com.ryanshores.ecommerce.data.repositories.AccountRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AccountService {
@@ -19,5 +21,9 @@ public class AccountService {
     public Account save(Account account) {
         account.setPassword(encoder.encode(account.getPassword()));
         return repo.save(account);
+    }
+
+    public Optional<Account> findByEmail(String email) {
+        return repo.findOneByEmail(email);
     }
 }
