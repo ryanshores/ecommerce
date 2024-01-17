@@ -49,11 +49,11 @@ create table account_authority
 create table product
 (
     created_dt  timestamptz not null,
-    price       double precision check ( price < 0 ),
+    price       double precision check ( price > 0 ),
     updated_dt  timestamptz,
     id          bigserial
         primary key,
-    quantity    bigint check ( price < 0 ),
+    quantity    bigint check ( quantity > 0 ),
     description text not null,
     modified_by text,
     name        text not null,
@@ -77,7 +77,7 @@ create table sale
 (
     created_dt  timestamptz not null,
     discount    integer
-        check ( discount > 0 and discount < 100 ),
+        check ( discount >= 0 and discount <= 100 ),
     status      smallint
         constraint sale_status_check
             check (status >= 0 AND status <= 4),
