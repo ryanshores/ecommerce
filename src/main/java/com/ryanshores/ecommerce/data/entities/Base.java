@@ -4,17 +4,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Date;
+import java.time.ZonedDateTime;
 
 @MappedSuperclass
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
 public abstract class Base {
 
@@ -23,10 +20,11 @@ public abstract class Base {
     private Long id;
 
     @CreationTimestamp
-    private Date createdDt;
+    private ZonedDateTime createdDt;
 
     @UpdateTimestamp
-    private Date updatedDt;
+    private ZonedDateTime updatedDt;
 
+    @Size(max = 64)
     private String modifiedBy;
 }

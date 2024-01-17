@@ -7,32 +7,32 @@ create table order_line_items
 
 create table cart
 (
-    created_dt  date,
-    updated_dt  date,
+    created_dt  timestamptz not null,
+    updated_dt  timestamptz,
     id          bigserial
         primary key,
-    coupon_code varchar(32),
-    modified_by varchar(64)
+    coupon_code text,
+    modified_by text
 );
 
 create table authority
 (
-    name varchar(16) not null primary key
+    name text not null primary key
 );
 
 create table account
 (
-    created_dt  date,
-    updated_dt  date,
+    created_dt  timestamptz not null,
+    updated_dt  timestamptz,
     cart_id     bigint
         unique
         constraint fk_cart
             references cart,
     id          bigserial
         primary key,
-    email       varchar(64),
-    modified_by varchar(64),
-    password    varchar(64)
+    email       text not null,
+    modified_by text,
+    password    text not null
 );
 
 create table account_authority
@@ -40,7 +40,7 @@ create table account_authority
     account_id     bigint      not null
         constraint fk_account
             references account,
-    authority_name varchar(16) not null
+    authority_name text not null
         constraint fk_authority
             references authority,
     primary key (account_id, authority_name)
@@ -48,16 +48,16 @@ create table account_authority
 
 create table product
 (
-    created_dt  date,
-    price       double precision,
-    updated_dt  date,
+    created_dt  timestamptz not null,
+    price       double precision check ( price < 0 ),
+    updated_dt  timestamptz,
     id          bigserial
         primary key,
-    quantity    bigint,
-    description varchar(255) not null,
-    modified_by varchar(64),
-    name        varchar(64) not null,
-    sku         varchar(32) not null
+    quantity    bigint check ( price < 0 ),
+    description text not null,
+    modified_by text,
+    name        text not null,
+    sku         text not null
 );
 
 create table cart_line_items
@@ -75,18 +75,19 @@ create table cart_line_items
 
 create table sale
 (
-    created_dt  date,
-    discount    integer,
+    created_dt  timestamptz not null,
+    discount    integer
+        check ( discount > 0 and discount < 100 ),
     status      smallint
         constraint sale_status_check
-            check ((status >= 0) AND (status <= 4)),
-    updated_dt  date,
+            check (status >= 0 AND status <= 4),
+    updated_dt  timestamptz,
     account_id  bigint
         constraint fk_account
             references account,
     id          bigserial
         primary key,
-    modified_by varchar(64)
+    modified_by text
 );
 
 create table sale_line_items

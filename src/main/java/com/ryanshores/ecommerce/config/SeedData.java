@@ -25,11 +25,9 @@ public class SeedData implements CommandLineRunner {
     }
 
     private final String adminRole = "ROLE_ADMIN";
-    private final String userRole = "ROLE_USER";
-
 
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws Exception {
         seedAuthorities();
         seedAccounts();
     }
@@ -44,16 +42,17 @@ public class SeedData implements CommandLineRunner {
         var adminRole = new Authority(this.adminRole);
         logger.info(authorityRepository.save(adminRole).toString());
 
-        var userRole = new Authority(this.userRole);
+        String userRole1 = "ROLE_USER";
+        var userRole = new Authority(userRole1);
         logger.info(authorityRepository.save(userRole).toString());
     }
 
-    private void seedAccounts() {
-        var accounts = accountService.findAll();
+    private void seedAccounts() throws Exception {
+        var accounts = accountService.findByAuthority(this.adminRole);
 
         if (!accounts.isEmpty()) return;
 
-        logger.info("Preloading accounts");
+        logger.info("Preloading admin account");
 
         var adminAuthority = authorityRepository.findById(this.adminRole);
         if (adminAuthority.isEmpty()) {
@@ -63,14 +62,5 @@ public class SeedData implements CommandLineRunner {
 
         var admin = new Account("admin@email.com", "password", adminAuthority.get());
         logger.info(accountService.save(admin).toString());
-
-        var userAuthority = authorityRepository.findById(this.userRole);
-        if (userAuthority.isEmpty()) {
-            logger.error("Unable to find user role");
-            return;
-        }
-
-        var user = new Account("user@email.com", "password", userAuthority.get());
-        logger.info(accountService.save(user).toString());
     }
 }

@@ -1,10 +1,13 @@
 package com.ryanshores.ecommerce.data.entities;
 
-import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OrderColumn;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Range;
 
 import java.util.List;
 
@@ -14,20 +17,15 @@ import java.util.List;
 @NoArgsConstructor
 public class Sale extends Base {
 
-    public Sale(List<LineItem> lineItems) {
-        this.status = SaleStatus.Submitted;
-        this.lineItems = lineItems;
-    }
-
     @ElementCollection
     @OrderColumn
     private List<LineItem> lineItems;
 
     private SaleStatus status;
 
+    @Range(min = 0, max = 100)
     private Integer discount;
 
-    @Nullable
     @ManyToOne
     private Account account;
 
@@ -50,6 +48,8 @@ public class Sale extends Base {
                 ", status=" + status +
                 ", discount=" + discount +
                 ", account=" + account +
+                ", subtotal=" + subtotal() +
+                ", total=" + total() +
                 '}';
     }
 }

@@ -1,6 +1,7 @@
 package com.ryanshores.ecommerce.data.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,10 +10,10 @@ import lombok.Setter;
 import java.util.HashSet;
 import java.util.Set;
 
-@Getter
-@Setter
 @Entity
 @NoArgsConstructor
+@Getter
+@Setter
 public class Account extends Base {
 
     public Account(String email, String password, Authority authority) {
@@ -21,9 +22,11 @@ public class Account extends Base {
         this.authorities.add(authority);
     }
 
+    @NotNull
     @Pattern(regexp = "^(.+)@(\\S+)$", message = "email must be valid")
     private String email;
 
+    @NotNull
     private String password;
 
     @OneToOne

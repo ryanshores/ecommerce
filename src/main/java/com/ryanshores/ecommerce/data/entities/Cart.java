@@ -1,7 +1,9 @@
 package com.ryanshores.ecommerce.data.entities;
 
-import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OrderColumn;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +14,7 @@ import java.util.List;
 @Entity
 public class Cart extends Base {
 
-    @Nullable
+    @Size(max = 32)
     private String couponCode;
 
     @ElementCollection
