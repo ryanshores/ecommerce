@@ -1,6 +1,6 @@
-package com.ryanshores.ecommerce.data.repositories;
+package com.ryanshores.ecommerce.repository;
 
-import com.ryanshores.ecommerce.data.entities.Product;
+import com.ryanshores.ecommerce.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

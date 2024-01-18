@@ -1,11 +1,11 @@
 package com.ryanshores.ecommerce.config;
 
-import com.ryanshores.ecommerce.data.entities.Account;
-import com.ryanshores.ecommerce.data.entities.Authority;
-import com.ryanshores.ecommerce.data.entities.Product;
-import com.ryanshores.ecommerce.data.repositories.AuthorityRepository;
-import com.ryanshores.ecommerce.data.repositories.ProductRepository;
-import com.ryanshores.ecommerce.services.AccountService;
+import com.ryanshores.ecommerce.model.Account;
+import com.ryanshores.ecommerce.model.Authority;
+import com.ryanshores.ecommerce.model.Product;
+import com.ryanshores.ecommerce.repository.AuthorityRepository;
+import com.ryanshores.ecommerce.repository.ProductRepository;
+import com.ryanshores.ecommerce.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,6 @@ public class SeedData implements CommandLineRunner {
         this.productRepository = productRepository;
     }
 
-    private final String adminRole = "ROLE_ADMIN";
 
     @Override
     public void run(String... args) throws Exception {
@@ -44,22 +43,21 @@ public class SeedData implements CommandLineRunner {
 
         logger.info("Seeding authorities");
 
-        var adminRole = new Authority(this.adminRole);
+        var adminRole = new Authority(Constants.AdminRole);
         logger.info(authorityRepository.save(adminRole).toString());
 
-        String userRole1 = "ROLE_USER";
-        var userRole = new Authority(userRole1);
+        var userRole = new Authority(Constants.UserRole);
         logger.info(authorityRepository.save(userRole).toString());
     }
 
     private void seedAccounts() throws Exception {
-        var accounts = accountService.findByAuthority(this.adminRole);
+        var accounts = accountService.findByAuthority(Constants.AdminRole);
 
         if (!accounts.isEmpty()) return;
 
         logger.info("Seeding admin account");
 
-        var adminAuthority = authorityRepository.findById(this.adminRole);
+        var adminAuthority = authorityRepository.findById(Constants.AdminRole);
         if (adminAuthority.isEmpty()) {
             logger.error("Unable to find admin role");
             return;

@@ -1,6 +1,6 @@
-package com.ryanshores.ecommerce.data.repositories;
+package com.ryanshores.ecommerce.repository;
 
-import com.ryanshores.ecommerce.data.entities.Account;
+import com.ryanshores.ecommerce.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

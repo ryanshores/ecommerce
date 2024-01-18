@@ -1,5 +1,6 @@
-package com.ryanshores.ecommerce.services;
+package com.ryanshores.ecommerce.service;
 
+import com.ryanshores.ecommerce.repository.AccountRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,19 +10,17 @@ import org.springframework.stereotype.Component;
 @Component("userDetailsService")
 public class MyUserDetailsService implements UserDetailsService {
 
-    private final AccountService accountService;
+    private final AccountRepository accountRepository;
 
-    public MyUserDetailsService(AccountService accountService) {
-        this.accountService = accountService;
+    public MyUserDetailsService(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        var optionalAccount = accountService.findByEmail(email);
+        var optionalAccount = accountRepository.findOneByEmail(email);
 
-        if (optionalAccount.isEmpty()) {
-            throw new UsernameNotFoundException("Account not found");
-        }
+        if (optionalAccount.isEmpty()) throw new UsernameNotFoundException("username not found " + email);
 
         var account = optionalAccount.get();
 

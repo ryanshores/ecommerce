@@ -1,4 +1,4 @@
-package com.ryanshores.ecommerce.data.entities;
+package com.ryanshores.ecommerce.model;
 
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
