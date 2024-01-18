@@ -17,8 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private static final String[] WHITELIST = {"/", "/api/register"};
-
+    private static final String[] WHITELIST = {"/", "/ping", "/api", "/api/register"};
 
     @Bean
     public static PasswordEncoder passwordEncoder() {

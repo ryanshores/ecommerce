@@ -1,6 +1,7 @@
 package com.ryanshores.ecommerce.controller;
 
 import com.ryanshores.ecommerce.dto.AccountDto;
+import com.ryanshores.ecommerce.dto.ApiResponse;
 import com.ryanshores.ecommerce.dto.CreateAccountDto;
 import com.ryanshores.ecommerce.model.exception.AlreadyRegisteredException;
 import com.ryanshores.ecommerce.model.exception.NotFoundException;
@@ -20,12 +21,12 @@ public class RegisterController {
     }
 
     @GetMapping
-    public CreateAccountDto get() {
-        return new CreateAccountDto("your@email.com", "password");
+    public ApiResponse<CreateAccountDto> get() {
+        return ApiResponse.success(new CreateAccountDto("your@email.com", "password"));
     }
 
     @PostMapping
-    public AccountDto post(@RequestBody CreateAccountDto createAccountDto) throws NotFoundException, AlreadyRegisteredException {
-        return new AccountDto(accountService.createNewUser(createAccountDto.email(), createAccountDto.password()));
+    public ApiResponse<AccountDto> post(@RequestBody CreateAccountDto createAccountDto) throws NotFoundException, AlreadyRegisteredException {
+        return ApiResponse.success(new AccountDto(accountService.createNewUser(createAccountDto.email(), createAccountDto.password())));
     }
 }

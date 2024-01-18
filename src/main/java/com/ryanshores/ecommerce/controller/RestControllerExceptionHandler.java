@@ -41,13 +41,13 @@ public class RestControllerExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiResponse<ErrorStatus> resourceNotFoundException(HttpServletRequest request, NotFoundException ex) {
+    public ApiResponse<ErrorStatus> resourceNotFoundException(HttpServletRequest request, Exception ex) {
         return handleError(ErrorStatus.NOT_FOUND, request, ex);
     }
 
     @ExceptionHandler(AlreadyRegisteredException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ApiResponse<ErrorStatus> alreadyRegistered(HttpServletRequest request, NotFoundException ex) {
+    public ApiResponse<ErrorStatus> alreadyRegistered(HttpServletRequest request, Exception ex) {
         return handleError(ErrorStatus.ALREADY_REGISTERED, request, ex);
     }
 }

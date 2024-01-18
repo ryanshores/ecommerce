@@ -1,5 +1,6 @@
 package com.ryanshores.ecommerce.controller;
 
+import com.ryanshores.ecommerce.dto.ApiDto;
 import com.ryanshores.ecommerce.dto.ApiResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,13 +13,13 @@ public class HomeController {
 
     @GetMapping(path = "/api")
     @ResponseBody
-    public ApiResponse<String> getApi() {
-        return ApiResponse.success("Hello, world");
+    public ApiResponse<ApiDto> getApi() {
+        return ApiResponse.success(new ApiDto());
     }
 
     @GetMapping(path = "/ping")
     @ResponseBody
-    public ApiResponse ping() {
+    public ApiResponse<String> ping() {
         return ApiResponse.empty();
     }
 
