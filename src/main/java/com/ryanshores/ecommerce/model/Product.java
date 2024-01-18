@@ -1,5 +1,6 @@
 package com.ryanshores.ecommerce.model;
 
+import com.ryanshores.ecommerce.dto.ProductDto;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -13,6 +14,14 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class Product extends Base {
+
+    public Product(ProductDto productDto) {
+        name = productDto.getName();
+        description = productDto.getDescription();
+        sku = productDto.getSku();
+        price = productDto.getPrice();
+        quantity = productDto.getQuantity();
+    }
 
     @NotNull(message = "name is required")
     @Pattern(regexp="^[ A-Za-z0-9_@./#&+-]+$", message = "name must be a string")

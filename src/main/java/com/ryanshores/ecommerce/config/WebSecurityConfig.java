@@ -17,7 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private static final String[] WHITELIST = {"/", "/ping", "/api", "/api/register"};
+    private static final String[] WHITELIST = {"/", "/ping", "/api/**"};
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -29,8 +29,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(WHITELIST).permitAll()
-                        .anyRequest()
-                        .authenticated()
+                        .anyRequest().authenticated()
                 )
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
                 .logout(LogoutConfigurer::permitAll)
