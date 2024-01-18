@@ -29,25 +29,25 @@ public class RestControllerExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ApiResponse handleException(HttpServletRequest request, Exception ex) {
+    public ApiResponse<ErrorStatus> handleException(HttpServletRequest request, Exception ex) {
         return handleError(ErrorStatus.UNKNOWN_ERROR, request, ex);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiResponse dataIntegrity(HttpServletRequest request, Exception ex) {
+    public ApiResponse<ErrorStatus> dataIntegrity(HttpServletRequest request, Exception ex) {
         return handleError(ErrorStatus.BAD_REQUEST, request, ex);
     }
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiResponse resourceNotFoundException(HttpServletRequest request, NotFoundException ex) {
+    public ApiResponse<ErrorStatus> resourceNotFoundException(HttpServletRequest request, NotFoundException ex) {
         return handleError(ErrorStatus.NOT_FOUND, request, ex);
     }
 
     @ExceptionHandler(AlreadyRegisteredException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ApiResponse alreadyRegistered(HttpServletRequest request, NotFoundException ex) {
+    public ApiResponse<ErrorStatus> alreadyRegistered(HttpServletRequest request, NotFoundException ex) {
         return handleError(ErrorStatus.ALREADY_REGISTERED, request, ex);
     }
 }
