@@ -1,16 +1,32 @@
 package com.ryanshores.ecommerce.dto;
 
-import com.ryanshores.ecommerce.enums.ApiStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-public abstract class ApiResponse<T> {
-    private final ApiStatus status;
-    private final T object;
+@Builder
+@AllArgsConstructor
+public class ApiResponse<T> {
+    private boolean success;
+    private T data;
 
-    public ApiResponse(ApiStatus status, T object) {
-        this.status = status;
-        this.object = object;
+    public static <T> ApiResponse<T> empty() {
+        return success(null);
+    }
+
+    public static <T> ApiResponse<T> success(T data) {
+        return ApiResponse.<T>builder()
+                .success(true)
+                .data(data)
+                .build();
+    }
+
+    public static <ErrorStatus> ApiResponse<ErrorStatus> error(ErrorStatus status) {
+        return ApiResponse.<ErrorStatus>builder()
+                .success(false)
+                .data(status)
+                .build();
     }
 }
 

@@ -2,6 +2,7 @@ package com.ryanshores.ecommerce.controller;
 
 import com.ryanshores.ecommerce.dto.AccountDto;
 import com.ryanshores.ecommerce.dto.CreateAccountDto;
+import com.ryanshores.ecommerce.model.exception.AlreadyRegisteredException;
 import com.ryanshores.ecommerce.model.exception.NotFoundException;
 import com.ryanshores.ecommerce.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class RegisterController {
     }
 
     @PostMapping
-    public AccountDto post(@RequestBody CreateAccountDto createAccountDto) throws NotFoundException {
+    public AccountDto post(@RequestBody CreateAccountDto createAccountDto) throws NotFoundException, AlreadyRegisteredException {
         return new AccountDto(accountService.createNewUser(createAccountDto.email(), createAccountDto.password()));
     }
 }

@@ -2,6 +2,7 @@ package com.ryanshores.ecommerce.service;
 
 import com.ryanshores.ecommerce.config.Constants;
 import com.ryanshores.ecommerce.model.Account;
+import com.ryanshores.ecommerce.model.exception.AlreadyRegisteredException;
 import com.ryanshores.ecommerce.model.exception.NotFoundException;
 import com.ryanshores.ecommerce.repository.AccountRepository;
 import com.ryanshores.ecommerce.repository.AuthorityRepository;
@@ -29,11 +30,6 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
-    public Account findByEmail(String email) throws NotFoundException {
-        return accountRepository.findOneByEmail(email)
-                .orElseThrow(() -> new NotFoundException("account by email " + email));
-    }
-
     public List<Account> findByAuthority(String name) throws NotFoundException {
         var accountAuthority = authorityRepository.findById(name);
 
@@ -42,7 +38,11 @@ public class AccountService {
         return accountRepository.findAccountsByAuthorities(accountAuthority.get().getName());
     }
 
-    public Account createNewUser(String email, String password) throws NotFoundException {
+    public Account createNewUser(String email, String password) throws NotFoundException, AlreadyRegisteredException {
+        var existingUser = accountRepository.findOneByEmail(email);
+
+        if (existingUser.isPresent()) throw new AlreadyRegisteredException("email is already registered");
+
         var userRole = authorityRepository.findById(Constants.UserRole);
 
         if (userRole.isEmpty()) throw new NotFoundException("user role not found");

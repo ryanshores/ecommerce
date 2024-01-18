@@ -5,10 +5,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @Embeddable
+@ToString
 public class LineItem {
     
     @ManyToOne
@@ -19,13 +21,5 @@ public class LineItem {
 
     public Double getTotal() {
         return quantity * product.getPrice();
-    }
-
-    @Override
-    public String toString() {
-        return "LineItem{" +
-                "product=" + product +
-                ", quantity=" + quantity +
-                '}';
     }
 }

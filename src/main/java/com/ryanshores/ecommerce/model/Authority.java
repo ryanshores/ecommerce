@@ -3,10 +3,7 @@ package com.ryanshores.ecommerce.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
@@ -14,16 +11,11 @@ import org.hibernate.validator.constraints.Length;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Authority {
     @Id
     @Length(max = 16)
     @NotNull
     private String name;
 
-    @Override
-    public String toString() {
-        return "Authority{" +
-                "name='" + name + '\'' +
-                '}';
-    }
 }

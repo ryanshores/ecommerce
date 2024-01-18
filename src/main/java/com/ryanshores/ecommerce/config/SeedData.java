@@ -3,6 +3,7 @@ package com.ryanshores.ecommerce.config;
 import com.ryanshores.ecommerce.model.Account;
 import com.ryanshores.ecommerce.model.Authority;
 import com.ryanshores.ecommerce.model.Product;
+import com.ryanshores.ecommerce.model.exception.NotFoundException;
 import com.ryanshores.ecommerce.repository.AuthorityRepository;
 import com.ryanshores.ecommerce.repository.ProductRepository;
 import com.ryanshores.ecommerce.service.AccountService;
@@ -28,20 +29,22 @@ public class SeedData implements CommandLineRunner {
         this.productRepository = productRepository;
     }
 
-
     @Override
-    public void run(String... args) throws Exception {
-        seedAuthorities();
-        seedAccounts();
-        seedTestProducts();
+    public void run(String... args) {
+        try {
+            seedAuthorities();
+            seedAccounts();
+            seedTestProducts();
+        } catch (Throwable e) {
+            logger.error("Error during seeing", e);
+        } finally {
+            logger.info("Seeding complete");
+        }
     }
 
     private void seedAuthorities() {
         var authorities = authorityRepository.findAll();
-
         if (!authorities.isEmpty()) return;
-
-        logger.info("Seeding authorities");
 
         var adminRole = new Authority(Constants.AdminRole);
         logger.info(authorityRepository.save(adminRole).toString());
@@ -50,12 +53,9 @@ public class SeedData implements CommandLineRunner {
         logger.info(authorityRepository.save(userRole).toString());
     }
 
-    private void seedAccounts() throws Exception {
+    private void seedAccounts() throws NotFoundException {
         var accounts = accountService.findByAuthority(Constants.AdminRole);
-
         if (!accounts.isEmpty()) return;
-
-        logger.info("Seeding admin account");
 
         var adminAuthority = authorityRepository.findById(Constants.AdminRole);
         if (adminAuthority.isEmpty()) {
@@ -69,13 +69,10 @@ public class SeedData implements CommandLineRunner {
 
     private void seedTestProducts() {
         var products = productRepository.findAll();
-
         if (!products.isEmpty()) return;
 
-        logger.info("Seeding test products");
-
         var product1 = new Product("Product 1", "This product is 1 because of the way it is.", "ECP000001", 9.99, 100L);
-        logger.info("Seeding product: ${}", productRepository.save(product1));
+        logger.info(productRepository.save(product1).toString());
 
         var product2 = new Product("Product 2", "This product is 2 because of the way it is.", "ECP000002", 19.99, 50L);
         logger.info(productRepository.save(product2).toString());
