@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/register")
-public class RegisterController {
+public class RegisterController extends BaseRestController {
 
     private final AccountService accountService;
 

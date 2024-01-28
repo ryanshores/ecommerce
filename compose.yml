@@ -3,13 +3,14 @@ version: '2'
 services:
   app:
     image: ecommerce
-    build:
-      context: .
+    build: .
     container_name: app
     depends_on:
       - db
     profiles:
       - deploy
+    ports:
+      - '8080:8080'
   db:
     image: postgres
     container_name: db

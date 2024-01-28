@@ -5,14 +5,13 @@ import com.ryanshores.ecommerce.dto.ProductDto;
 import com.ryanshores.ecommerce.model.Product;
 import com.ryanshores.ecommerce.model.exception.NotFoundException;
 import com.ryanshores.ecommerce.service.ProductService;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/product")
-public class ProductController {
+public class ProductController extends BaseRestController {
 
     private final ProductService service;
 
@@ -36,7 +35,6 @@ public class ProductController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ApiResponse<ProductDto> post(@RequestBody ProductDto productDto) {
         var product = service.save(new Product(productDto));
 
