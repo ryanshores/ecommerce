@@ -12,15 +12,14 @@ public class CartService extends BaseService<Cart> {
     private final ProductService productService;
 
     public CartService(CartRepository cartRepository, ProductService productService) {
-        super(cartRepository, Cart.class);
+        super(cartRepository);
         this.cartRepo = cartRepository;
         this.productService = productService;
     }
 
     public Cart createCart() {
         var cart = new Cart();
-        cartRepo.save(cart);
-        return cart;
+        return cartRepo.save(cart);
     }
 
     public Cart addProduct(Long cartId, Long productId) throws Exception {
