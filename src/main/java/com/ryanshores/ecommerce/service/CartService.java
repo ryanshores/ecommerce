@@ -5,6 +5,8 @@ import com.ryanshores.ecommerce.model.LineItem;
 import com.ryanshores.ecommerce.repository.CartRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 public class CartService extends BaseService<Cart> {
 
@@ -30,15 +32,16 @@ public class CartService extends BaseService<Cart> {
 
         var lineItems = cart.getLineItems();
 
-        if (lineItems.stream().anyMatch(lineItem -> lineItem.getProduct() == product)) {
-            for (int i = 0; i < lineItems.size(); i++) {
-                if (lineItems.get(i).getProduct() == product) {
-                    var newLineItem = lineItems.get(i);
-                    newLineItem.setQuantity(newLineItem.getQuantity() + 1);
-                    lineItems.set(i, newLineItem);
-                }
-            }
-        } else {
+        var filter = lineItems.stream().filter(i -> Objects.equals(i.getProduct().getId(), productId)).findFirst().orElse(null);
+
+        // if the existing line item is found add +1 to quantity
+        if (filter != null) {
+            var index = lineItems.indexOf(filter);
+            if (index < 0) throw new Exception("unable to find filtered line item index");
+            var lineItem = lineItems.get(index);
+            lineItem.setQuantity(lineItem.getQuantity() + 1L);
+            lineItems.set(index, lineItem);
+        } else { // add new line item
             lineItems.add(new LineItem(product, 1L));
         }
 

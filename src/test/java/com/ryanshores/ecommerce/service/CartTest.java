@@ -1,9 +1,11 @@
 package com.ryanshores.ecommerce.service;
 
 import com.ryanshores.ecommerce.model.Cart;
+import com.ryanshores.ecommerce.model.TestCarts;
 import com.ryanshores.ecommerce.model.TestProduct;
 import com.ryanshores.ecommerce.repository.CartRepository;
 import com.ryanshores.ecommerce.repository.ProductRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -11,7 +13,6 @@ import org.mockito.Mockito;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -50,6 +51,7 @@ public class CartTest {
             cart.setId(id);
             return Optional.of(cart);
         } );
+        when(cartRepository.findById(102L)).thenAnswer(i -> Optional.of(TestCarts.WithLineItem(102L)));
     }
 
     private Cart createTestCart() { return cartService.createCart(); }
@@ -63,25 +65,26 @@ public class CartTest {
     @Test
     public void addProduct_success() throws Exception {
 
-        var cartId = createTestCart().getId();
-
         var productId = 10L;
 
-        var updatedCart = cartService.addProduct(cartId, productId);
-        assertTrue(updatedCart.getOrderProductIds().contains(productId));
+        var updatedCart = cartService.addProduct(1L, productId);
+        var lineItem = updatedCart.getLineItems().stream().filter(object -> object.getProduct().getId() == productId)
+                .findFirst().orElse(null);
+        assertNotNull(lineItem);
+
     }
 
     @Test
-    public void addMultipleProduct_success() throws Exception {
+    public void cartWithExistingLineItem_success() throws Exception {
+        var id = 102L;
 
-        var cartId = createTestCart().getId();
+        // add to cart having line item product 102 quantity 1
+        var updatedCart = cartService.addProduct(id, id);
 
-        var productId = 10L;
-
-        var updatedCart = cartService.addProduct(cartId, productId);
-        updatedCart = cartService.addProduct(cartId, productId);
-
-        assertTrue(updatedCart.getOrderProductIds().contains(productId));
+        var lineItem = updatedCart.getLineItems().stream().filter(object -> object.getProduct().getId() == id)
+                .findFirst().orElse(null);
+        assertNotNull(lineItem);
+        Assertions.assertEquals(2, lineItem.getQuantity());
     }
 
 }
