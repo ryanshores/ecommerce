@@ -1,5 +1,6 @@
 package com.ryanshores.ecommerce.model;
 
+import com.ryanshores.ecommerce.model.order.Cart;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

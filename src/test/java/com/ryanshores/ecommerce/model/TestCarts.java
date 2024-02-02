@@ -1,5 +1,7 @@
 package com.ryanshores.ecommerce.model;
 
+import com.ryanshores.ecommerce.model.order.Cart;
+
 import java.util.Map;
 
 public class TestCarts {

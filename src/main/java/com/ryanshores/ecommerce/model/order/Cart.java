@@ -1,22 +1,42 @@
-package com.ryanshores.ecommerce.model;
+package com.ryanshores.ecommerce.model.order;
 
+import com.ryanshores.ecommerce.model.Base;
+import com.ryanshores.ecommerce.model.LineItem;
+import com.ryanshores.ecommerce.model.Product;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OrderColumn;
 import lombok.Getter;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Range;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @Entity
 @ToString
+@Getter
 public class Cart extends Base {
 
     @ElementCollection
     @OrderColumn
     private List<LineItem> lineItems = new ArrayList<>();
+
+    public Double subtotal = getSubtotal();
+    @Range(min = 0, max = 100)
+    private int discount = 0;
+    public Double total = getTotal();
+
+    private Double getSubtotal() {
+        var result = lineItems.stream().mapToDouble(LineItem::getTotal).reduce(Double::sum);
+        return result.isPresent() ? result.getAsDouble() : Double.NaN;
+    }
+
+    private Double getTotal() {
+        return discount > 0 && discount <= 100 ?
+                (1 - (discount / 100)) * subtotal :
+                subtotal;
+    }
 
     private int getLineItemIndexForProductId(Long productId) {
         var filter = lineItems.stream().filter(i ->

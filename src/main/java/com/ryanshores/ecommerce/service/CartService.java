@@ -1,7 +1,7 @@
 package com.ryanshores.ecommerce.service;
 
-import com.ryanshores.ecommerce.model.Cart;
 import com.ryanshores.ecommerce.model.Product;
+import com.ryanshores.ecommerce.model.order.Cart;
 import com.ryanshores.ecommerce.repository.CartRepository;
 import org.springframework.stereotype.Service;
 
