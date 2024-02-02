@@ -1,11 +1,17 @@
 package com.ryanshores.ecommerce.model;
 
+import java.util.Map;
+
 public class TestCarts {
-    public static Cart WithLineItem(Long productId) {
+    public static Cart WithProduct(Product product, Long quantity) {
         var cart = new Cart();
-        var lineItems = cart.getLineItems();
-        lineItems.add(new LineItem(new TestProduct(productId), 1L));
-        cart.setLineItems(lineItems);
+        cart.addProductByQuantity(product, quantity);
+        return cart;
+    }
+
+    public static Cart WithProducts(Map<Product, Long> productQuantityMap) {
+        var cart = new Cart();
+        productQuantityMap.forEach(cart::addProductByQuantity);
         return cart;
     }
 }
